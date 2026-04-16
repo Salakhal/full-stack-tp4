@@ -1,0 +1,35 @@
+<%- include('../../partials/header') %>
+
+<div class="detail-container">
+    <div class="detail-header">
+        <h1><%= livre.titre %></h1>
+        <div class="detail-actions">
+            <a href="/livres/<%= livre.id %>/modifier" class="btn btn-warning">✏️ Modifier</a>
+            <form action="/livres/<%= livre.id %>/supprimer" method="POST" class="inline-form">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?')">🗑️ Supprimer</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="detail-content">
+        <div class="info-section">
+            <h3>Informations du livre</h3>
+            <p><strong>Auteur :</strong> <a href="/auteurs/<%= livre.auteur_id %>"><%= livre.auteur_prenom %> <%= livre.auteur_nom %></a></p>
+            <p><strong>Genre :</strong> <%= livre.genre || 'Non spécifié' %></p>
+            <p><strong>Année de publication :</strong> <%= livre.annee_publication || 'Non spécifiée' %></p>
+            <p><strong>ISBN :</strong> <%= livre.isbn || 'Non spécifié' %></p>
+            <p><strong>Statut :</strong> 
+                <span class="status-badge <%= livre.disponible ? 'status-available' : 'status-borrowed' %>">
+                    <%= livre.disponible ? 'Disponible' : 'Emprunté' %>
+                </span>
+            </p>
+        </div>
+        
+        <div class="resume-section">
+            <h3>Résumé</h3>
+            <p><%= livre.resume || 'Aucun résumé disponible.' %></p>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

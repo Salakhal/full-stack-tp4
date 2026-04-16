@@ -1,0 +1,62 @@
+<%- include('../../partials/header') %>
+
+<div class="page-header">
+    <h1>📚 Catalogue des livres</h1>
+    <a href="/livres/ajouter" class="btn btn-primary">
+        <span>➕</span> Ajouter un livre
+    </a>
+</div>
+
+<% if(searchTerm && searchTerm !== '') { %>
+    <div class="search-info">
+        <p>🔍 Résultats pour : "<strong><%= searchTerm %></strong>" — 
+        <span><%= livres.length %> livre(s) trouvé(s)</span></p>
+    </div>
+<% } %>
+
+<div class="books-table-container">
+    <table class="books-table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Genre</th>
+                <th>Année</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(livres.length === 0) { %>
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 3rem;">
+                        📭 Aucun livre trouvé
+                    </td>
+                </tr>
+            <% } else { %>
+                <% livres.forEach(livre => { %>
+                    <tr>
+                        <td><strong><%= livre.titre %></strong></td>
+                        <td><%= livre.auteur_prenom %> <%= livre.auteur_nom %></td>
+                        <td><%= livre.genre || '—' %></td>
+                        <td><%= livre.annee_publication || '—' %></td>
+                        <td>
+                            <span class="status-badge <%= livre.disponible ? 'status-available' : 'status-borrowed' %>">
+                                <%= livre.disponible ? '✓ Disponible' : '✗ Emprunté' %>
+                            </span>
+                        </td>
+                        <td class="table-actions">
+                            <a href="/livres/<%= livre.id %>" class="btn-icon btn-view" title="Voir">👁️</a>
+                            <a href="/livres/<%= livre.id %>/modifier" class="btn-icon btn-edit" title="Modifier">✏️</a>
+                            <form action="/livres/<%= livre.id %>/supprimer" method="POST" class="inline-form">
+                                <button type="submit" class="btn-icon btn-delete" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?')">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../../partials/footer') %>

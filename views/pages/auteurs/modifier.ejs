@@ -1,0 +1,42 @@
+<%- include('../../partials/header') %>
+
+<div class="page-header">
+    <h2>✏️ Modifier l'auteur</h2>
+    <a href="/auteurs" class="btn btn-secondary">← Retour</a>
+</div>
+
+<div class="form-container">
+    <form action="/auteurs/<%= auteur.id %>/modifier" method="POST" class="styled-form">
+        <div class="form-group">
+            <label for="nom">Nom *</label>
+            <input type="text" id="nom" name="nom" value="<%= auteur.nom %>" required class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input type="text" id="prenom" name="prenom" value="<%= auteur.prenom %>" required class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="date_naissance">Date de naissance</label>
+            <input type="date" id="date_naissance" name="date_naissance" value="<%= auteur.date_naissance ? new Date(auteur.date_naissance).toISOString().split('T')[0] : '' %>" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="nationalite">Nationalité</label>
+            <input type="text" id="nationalite" name="nationalite" value="<%= auteur.nationalite || '' %>" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="biographie">Biographie</label>
+            <textarea id="biographie" name="biographie" rows="5" class="form-control"><%= auteur.biographie || '' %></textarea>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+            <a href="/auteurs" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+
+<%- include('../../partials/footer') %>

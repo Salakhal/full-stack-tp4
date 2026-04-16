@@ -1,0 +1,47 @@
+<%- include('../../partials/header') %>
+
+<div class="detail-container">
+    <div class="detail-header">
+        <h1><%= auteur.prenom %> <%= auteur.nom %></h1>
+        <div class="detail-actions">
+            <a href="/auteurs/<%= auteur.id %>/modifier" class="btn btn-warning">✏️ Modifier</a>
+            <form action="/auteurs/<%= auteur.id %>/supprimer" method="POST" class="inline-form">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet auteur ?')">🗑️ Supprimer</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="detail-content">
+        <div class="info-section">
+            <h3>Informations personnelles</h3>
+            <p><strong>Nationalité :</strong> <%= auteur.nationalite || 'Non spécifiée' %></p>
+            <p><strong>Date de naissance :</strong> <span class="format-date"><%= auteur.date_naissance || 'Non spécifiée' %></span></p>
+        </div>
+        
+        <div class="bio-section">
+            <h3>Biographie</h3>
+            <p><%= auteur.biographie || 'Aucune biographie disponible.' %></p>
+        </div>
+        
+        <div class="books-section">
+            <h3>Livres de cet auteur (<%= livres.length %>)</h3>
+            <% if(livres.length > 0) { %>
+                <div class="books-list">
+                    <% livres.forEach(livre => { %>
+                        <div class="book-item">
+                            <a href="/livres/<%= livre.id %>"><%= livre.titre %></a>
+                            <span class="book-year">(<%= livre.annee_publication || 'Année inconnue' %>)</span>
+                            <span class="book-status <%= livre.disponible ? 'available' : 'borrowed' %>">
+                                <%= livre.disponible ? 'Disponible' : 'Emprunté' %>
+                            </span>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p>Aucun livre enregistré pour cet auteur.</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
